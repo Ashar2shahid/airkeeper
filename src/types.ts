@@ -1,5 +1,6 @@
 import * as node from '@api3/airnode-node';
 import * as utils from '@api3/airnode-utilities';
+
 import { ethers } from 'ethers';
 import {
   Triggers,
@@ -54,7 +55,7 @@ export type ProviderState<T extends {}> = T & {
 
 export interface EVMBaseState {
   currentBlock: number;
-  gasTarget: node.GasTarget;
+  gasTarget: utils.GasTarget;
 }
 
 export interface EVMProviderState extends EVMBaseState {

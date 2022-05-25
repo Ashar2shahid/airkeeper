@@ -23,6 +23,7 @@ describe('initializeEvmState', () => {
       txType: 'eip1559',
       baseFeeMultiplier: 2,
       priorityFee: { value: 3.12, unit: 'gwei' },
+      fulfillmentGasLimit: 500000,
     },
   };
 
@@ -40,6 +41,7 @@ describe('initializeEvmState', () => {
           txType,
           baseFeeMultiplier: 2,
           priorityFee: { value: 3.12, unit: 'gwei' },
+          fulfillmentGasLimit: 500000,
         },
       },
       providerUrl
@@ -148,7 +150,7 @@ const createAndMockGasTarget = (txType: 'legacy' | 'eip1559') => {
   if (txType === 'legacy') {
     const gasPrice = ethers.BigNumber.from(1000);
     gasPriceSpy.mockResolvedValue(gasPrice);
-    return { gasTarget: { gasPrice }, blockSpy, gasPriceSpy };
+    return { gasTarget: { gasPrice, type: 0 }, blockSpy, gasPriceSpy };
   }
 
   const baseFeePerGas = ethers.BigNumber.from(1000);
@@ -156,5 +158,5 @@ const createAndMockGasTarget = (txType: 'legacy' | 'eip1559') => {
   const maxPriorityFeePerGas = ethers.BigNumber.from(PRIORITY_FEE_IN_WEI);
   const maxFeePerGas = baseFeePerGas.mul(BASE_FEE_MULTIPLIER).add(maxPriorityFeePerGas);
 
-  return { gasTarget: { maxPriorityFeePerGas, maxFeePerGas }, blockSpy, gasPriceSpy };
+  return { gasTarget: { maxPriorityFeePerGas, maxFeePerGas, type: 2 }, blockSpy, gasPriceSpy };
 };
